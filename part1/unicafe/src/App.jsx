@@ -39,6 +39,10 @@ export default function App() {
     console.log(bad)
   }
 
+  const total = good + neutral + bad
+  const average = (good + neutral + bad) / 3
+  const positive = (good * 100) / total
+
   return (
     <>
       <h1><strong>Give Feedback</strong></h1>
@@ -50,6 +54,9 @@ export default function App() {
       <Counter text="GOOD" count={good} />
       <Counter text="NEUTRAL" count={neutral} />
       <Counter text="BAD" count={bad} />
+      <h3>Total: {total}</h3>
+      <h3>Average: {average}</h3>
+      <h3>Positive: {positive}</h3>
 
 
 
