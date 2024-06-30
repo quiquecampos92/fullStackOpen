@@ -19,6 +19,30 @@ const Counter = (props) => {
   )
 }
 
+const Statics = ({ good, neutral, bad }) => {
+
+  const total = good + neutral + bad
+  let average = (good + neutral + bad) / 3;
+  let positive = 0;
+
+  if (total > 0) {
+    positive = (good * 100) / total;
+  }
+
+  return (
+    <>
+      <h1><strong>Statistics</strong></h1>
+
+      <Counter text="GOOD" count={good} />
+      <Counter text="NEUTRAL" count={neutral} />
+      <Counter text="BAD" count={bad} />
+      <h3>Total: {total}</h3>
+      <h3>Average: {average}</h3>
+      <h3>Positive: {positive}</h3>
+    </>
+  )
+}
+
 export default function App() {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
@@ -39,9 +63,7 @@ export default function App() {
     console.log(bad)
   }
 
-  const total = good + neutral + bad
-  const average = (good + neutral + bad) / 3
-  const positive = (good * 100) / total
+
 
   return (
     <>
@@ -50,16 +72,7 @@ export default function App() {
       <Button onClick={handleNeutralClick} text="NEUTRAL" />
       <Button onClick={handleBadClick} text="BAD" />
       <br /><br />
-      <h1><strong>Statistics</strong></h1>
-      <Counter text="GOOD" count={good} />
-      <Counter text="NEUTRAL" count={neutral} />
-      <Counter text="BAD" count={bad} />
-      <h3>Total: {total}</h3>
-      <h3>Average: {average}</h3>
-      <h3>Positive: {positive}</h3>
-
-
-
+      <Statics good={good} neutral={neutral} bad={bad} />
     </>
   )
 }
