@@ -11,13 +11,21 @@ const Button = (props) => {
 }
 //Counter Component
 const Counter = (props) => {
-  const { text, count } = props
+  const { text, count } = props;
   return (
     <>
-      <p>{text} {count}</p>
+      <table>
+        <tbody>
+          <tr>
+            <th style={{ width: '90px' }}>{text}</th>
+            <td>{count}</td>
+          </tr>
+        </tbody>
+      </table>
     </>
-  )
-}
+  );
+};
+
 
 const Statics = ({ good, neutral, bad }) => {
 
@@ -40,9 +48,9 @@ const Statics = ({ good, neutral, bad }) => {
             <Counter text="GOOD" count={good} />
             <Counter text="NEUTRAL" count={neutral} />
             <Counter text="BAD" count={bad} />
-            <h3>Total: {total}</h3>
-            <h3>Average: {average}</h3>
-            <h3>Positive: {positive}</h3>
+            <Counter text="TOTAL: " count={total} />
+            <Counter text="AVERAGE: " count={average} />
+            <Counter text="POSITIVE: " count={positive} />
           </>
         )
       }
