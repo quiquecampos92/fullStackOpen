@@ -32,13 +32,20 @@ const Statics = ({ good, neutral, bad }) => {
   return (
     <>
       <h1><strong>Statistics</strong></h1>
-
-      <Counter text="GOOD" count={good} />
-      <Counter text="NEUTRAL" count={neutral} />
-      <Counter text="BAD" count={bad} />
-      <h3>Total: {total}</h3>
-      <h3>Average: {average}</h3>
-      <h3>Positive: {positive}</h3>
+      {
+        total === 0 ? (
+          <h3>No hay comentarios</h3>
+        ) : (
+          <>
+            <Counter text="GOOD" count={good} />
+            <Counter text="NEUTRAL" count={neutral} />
+            <Counter text="BAD" count={bad} />
+            <h3>Total: {total}</h3>
+            <h3>Average: {average}</h3>
+            <h3>Positive: {positive}</h3>
+          </>
+        )
+      }
     </>
   )
 }
@@ -50,17 +57,14 @@ export default function App() {
 
   const handleGoodClick = () => {
     setGood(good + 1)
-    console.log(good)
   }
 
   const handleNeutralClick = () => {
     setNeutral(neutral + 1)
-    console.log(neutral)
   }
 
   const handleBadClick = () => {
     setBad(bad + 1)
-    console.log(bad)
   }
 
 
