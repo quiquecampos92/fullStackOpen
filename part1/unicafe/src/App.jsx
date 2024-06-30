@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-
+//Button Component
 const Button = (props) => {
   const { text, onClick } = props
   return (
@@ -9,7 +9,7 @@ const Button = (props) => {
     </>
   )
 }
-
+//Counter Component
 const Counter = (props) => {
   const { text, count } = props
   return (
