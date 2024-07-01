@@ -34,13 +34,24 @@ export default function App() {
     setScores(newScores);
   }
 
+  const masVotado = () => {
+    const maxIndex = scores.reduce((maxIndex, currentValue, index) =>
+      currentValue > scores[maxIndex] ? index : maxIndex,
+      0);
+    console.log(maxIndex)
+    return `Anécdota más votada: ${anecdotes[maxIndex]} con ${scores[maxIndex]} votos.`;
+  };
+
   return (
     <>
-      <h1>ANECDOTAS</h1>
+      <h1>ANÉCDOTAS</h1>
       <div>{anecdotes[selected]}</div>
-      <h1>Puntuación: {scores[selected]}</h1>
+      <h2>Puntuación: {scores[selected]}</h2>
       <Button onClick={handleScoreClick} text="Puntuar" />
       <Button onClick={handleNextClick} text="Next Anecdote" />
+      <br /><br />
+      <h1>ANÉCDOTA CON MÁS VOTOS</h1>
+      <p>{masVotado()}</p>
     </>
   )
 }
