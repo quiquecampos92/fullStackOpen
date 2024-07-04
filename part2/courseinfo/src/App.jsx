@@ -28,19 +28,28 @@ const Part = (props) => {
 };
 
 
-// const Total = (props) => {
-//   const parts = props.parts;
-//   return (
-//     <p>Number of exercises {parts[0].exercises + parts[1].exercises + parts[2].exercises}</p>
-//   )
-// }
+const Total = (props) => {
+  const parts = props.parts;
+  const totals = () => {
+    return parts.reduce((total, part) => {
+      const ejercicios = part.exercises
+      return total + ejercicios
+    }, 0)
+  }
+  return (
+    <>
+      <p>Number of exercises {totals()}</p>
+      {/* <p>Number of exercises {parts[0].exercises + parts[1].exercises + parts[2].exercises}</p> */}
+    </>
+  )
+}
 
 const Course = ({ course }) => {
   return (
     <>
       <Header name={course.name} />
       <Content parts={course.parts} />
-      {/* <Total parts={course.parts} /> */}
+      <Total parts={course.parts} />
     </>
   )
 }
