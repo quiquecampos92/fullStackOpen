@@ -34,7 +34,7 @@ const App = () => {
       setNewName('')
       setNewNumber('')
     } else {
-      alert('El nombre ya existe.')
+      alert(`El nombre ${newName} ya existe.`)
       setNewName('')
       setNewNumber('')
     }
