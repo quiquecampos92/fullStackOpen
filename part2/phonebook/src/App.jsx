@@ -21,19 +21,26 @@ const App = () => {
 
   const addContact = (event) => {
     event.preventDefault()
-    const contactObject = {
-      name: newName,
-      number: newNumber,
-      id: persons.length + 2,
-    }
+    const checkedName = persons.some(person => person.name.toLowerCase() === newName.toLowerCase());
+    console.log(checkedName);
+    if (!checkedName) {
+      const contactObject = {
+        name: newName,
+        number: newNumber,
+        id: persons.length + 1,
+      }
 
-    setPersons(persons.concat(contactObject))
-    setNewName('')
-    setNewNumber('')
+      setPersons(persons.concat(contactObject))
+      setNewName('')
+      setNewNumber('')
+    } else {
+      alert('El nombre ya existe.')
+      setNewName('')
+      setNewNumber('')
+    }
   }
 
   // console.log(persons);
-
 
   return (
     <div>
