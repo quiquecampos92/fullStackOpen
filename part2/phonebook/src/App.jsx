@@ -1,16 +1,27 @@
-import { useState } from 'react'
-import DataContact from './components/DataContact'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+
 import FilterName from './components/FilterName'
 import AddContact from './components/AddContact'
 import DataFilter from './components/DataFilter'
 
+
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '000 000', id: 1 }
-  ])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchTerm, setSearchTerm] = useState('');
+
+  const hookEffect = () => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promesa completada');
+        setPersons(response.data)
+      })
+  }
+
+  useEffect(hookEffect, [])
 
   const handleFilter = (event) => {
     const filter = event.target.value.toLowerCase();
