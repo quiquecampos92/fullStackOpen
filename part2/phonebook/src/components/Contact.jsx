@@ -1,20 +1,13 @@
 
-const Contact = ({ contacts }) => {
+const Contact = ({ contact }) => {
 
     return (
-        <>
-            {contacts.map((c) => (
-                <>
-                    <div key={c.id}>
-                        <p>{c.name}</p>
-                        <p>{c.number}</p>
-                        <p>{c.id}</p>
-                        <br /><br /><br />
-                    </div>
-                </>
-            )
-            )}
-        </>
+        <div key={contact.id}>
+            <p>{contact.name}</p>
+            <p>{contact.number}</p>
+            <p>{contact.id}</p>
+            <br /><br /><br />
+        </div>
     );
 };
 
