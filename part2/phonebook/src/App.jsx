@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import Contact from './components/Contact'
+import DataContact from './components/DataContact'
+import FilterName from './components/FilterName'
+import AddContact from './components/AddContact'
+import DataFilter from './components/DataFilter'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -50,34 +53,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        <p>Filter person:</p>
-        <input type="text" onChange={handleFilter} />
-      </div>
-
-      <h2>Add a new</h2>
-      <form onSubmit={addContact}>
-        <div>
-          Name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          Number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-
-      {
-        searchTerm !== '' ?
-          persons.filter(person => person.name.toLowerCase().includes(searchTerm)).map(person => <Contact key={person.id} contact={person} />)
-          :
-          <>
-            <h2>Numbers</h2>
-            {persons.map(person => <Contact key={person.id} contact={person} />)}
-          </>
-      }
-
+      <FilterName handleFilter={handleFilter} />
+      <AddContact addContact={addContact} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
+      <DataFilter persons={persons} searchTerm={searchTerm} />
     </div>
   )
 }

@@ -1,5 +1,5 @@
 
-const Contact = ({ contact }) => {
+const DataContact = ({ contact }) => {
 
     return (
         <div key={contact.id}>
@@ -11,4 +11,4 @@ const Contact = ({ contact }) => {
     );
 };
 
-export default Contact
+export default DataContact
