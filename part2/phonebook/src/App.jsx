@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import contactService from './services/contacts'
 
 import FilterName from './components/FilterName'
 import AddContact from './components/AddContact'
@@ -10,11 +11,10 @@ const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState('')
 
   const hookEffect = () => {
-    axios
-      .get('http://localhost:3001/persons')
+    contactService.getAllContacts()
       .then(response => {
         console.log('promesa completada');
         setPersons(response.data)
@@ -48,10 +48,13 @@ const App = () => {
         number: newNumber,
         id: persons.length + 1,
       }
-
-      setPersons(persons.concat(contactObject))
-      setNewName('')
-      setNewNumber('')
+      contactService.createContact(contactObject)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          setNewName('')
+          setNewNumber('')
+        }
+        )
     } else {
       alert(`El nombre ${newName} ya existe.`)
       setNewName('')
