@@ -62,6 +62,7 @@ const App = () => {
     }
   }
 
+
   // console.log(persons);
 
   return (
@@ -69,7 +70,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <FilterName handleFilter={handleFilter} />
       <AddContact addContact={addContact} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
-      <DataFilter persons={persons} searchTerm={searchTerm} />
+      <DataFilter persons={persons} searchTerm={searchTerm} setPersons={setPersons} />
     </div>
   )
 }

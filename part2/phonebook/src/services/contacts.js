@@ -15,6 +15,7 @@ const updateContact = (id, modifiedContact) => {
 }
 
 const deleteContact = (id) => {
+    console.log('Contacto eliminado');
     return axios.delete(`${basedUrl}/${id}`)
 }
 
