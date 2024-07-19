@@ -41,6 +41,7 @@ const App = () => {
   const addContact = (event) => {
     event.preventDefault()
     const checkedName = persons.some(person => person.name.toLowerCase() === newName.toLowerCase());
+    const checkedNumber = persons.some(person => person.number === newNumber);
     console.log(checkedName);
     if (!checkedName) {
       const contactObject = {
@@ -55,8 +56,25 @@ const App = () => {
           setNewNumber('')
         }
         )
+    } else if (checkedName && !checkedNumber) {
+      const personFound = persons.find(person => person.name.toLowerCase() === newName.toLowerCase())
+      const contactObjectUpdated = {
+        name: personFound.name,
+        number: newNumber,
+        id: personFound.id
+      }
+      contactService.updateContact(personFound.id, contactObjectUpdated)
+        .then(() => {
+          console.log('Contact updated');
+          return contactService.getAllContacts();
+        })
+        .then(response => {
+          setPersons(response.data);
+        })
+      setNewName('')
+      setNewNumber('')
     } else {
-      alert(`El nombre ${newName} ya existe.`)
+      alert(`El nombre ${newName} con número ${newNumber} ya existe.`)
       setNewName('')
       setNewNumber('')
     }
