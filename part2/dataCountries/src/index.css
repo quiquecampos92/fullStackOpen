@@ -1,0 +1,10 @@
+.country {
+    /* display: flex; */
+    align-items: center;
+
+}
+
+button {
+    height: 20px;
+    margin-left: 10px;
+}

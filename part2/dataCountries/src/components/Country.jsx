@@ -1,15 +1,17 @@
 import React from 'react'
 
+import CountryDetails from './CountryDetails'
+
 function Country({ countries, search }) {
+
     const filteredCountries = countries.filter(country => country.name.common.toLowerCase().includes(search.toLowerCase()))
+    const lengthOfSearch = search.length
 
     return (
         filteredCountries.map(country => (
-            <div key={country.cca3}>
+            <div key={country.cca3} className='country'>
                 <h1>{country.name.common}</h1>
-                <h4>capital: {country.capital}</h4>
-                <h4>area: {country.area}</h4>
-                <img src={country.flags.png} alt="Bandera del país seleccionado" />
+                <CountryDetails country={country} lengthOfSearch={lengthOfSearch} />
             </div>
         ))
     )
