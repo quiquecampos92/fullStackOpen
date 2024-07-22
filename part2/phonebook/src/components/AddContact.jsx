@@ -1,9 +1,14 @@
 import React from 'react'
 
-function AddContact({ addContact, newName, handleNameChange, newNumber, handleNumberChange }) {
+import SuccessMessage from './SuccessMessage'
+
+function AddContact({ message, addContact, newName, handleNameChange, newNumber, handleNumberChange }) {
+
+
     return (
         <>
             <h2>Add a new</h2>
+            <SuccessMessage message={message} name={newName} />
             <form onSubmit={addContact}>
                 <div>
                     Name: <input value={newName} onChange={handleNameChange} />

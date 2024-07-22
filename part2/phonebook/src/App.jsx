@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import contactService from './services/contacts'
 
 import FilterName from './components/FilterName'
@@ -12,6 +11,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
+  const [message, setMessage] = useState(null)
 
   const hookEffect = () => {
     contactService.getAllContacts()
@@ -54,6 +54,10 @@ const App = () => {
           setPersons(persons.concat(response.data))
           setNewName('')
           setNewNumber('')
+          setMessage(`Added ${newName}`)
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         }
         )
     } else if (checkedName && !checkedNumber) {
@@ -87,7 +91,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <FilterName handleFilter={handleFilter} />
-      <AddContact addContact={addContact} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
+      <AddContact message={message} addContact={addContact} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
       <DataFilter persons={persons} searchTerm={searchTerm} setPersons={setPersons} />
     </div>
   )
