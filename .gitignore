@@ -37,6 +37,7 @@ yarn-error.log*
 
 /fullstack/part2/courseinfo/node_modules
 /fullstack/part2/phonebook/node_modules
+/fullstack/part2/dataCountries/node_modules
 
 
 
