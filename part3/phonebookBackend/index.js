@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 
-const contacts = [
+let contacts = [
     {
         "id": 1,
         "name": "Arto Hellas",
@@ -54,7 +54,10 @@ app.get('/info', (request, response) => {
     response.send(`<p>Phonebook has info for ${info().totalNotes} people</p><p>${info().currentDate}</p>`)
 })
 
-
+app.delete('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    contacts = contacts.filter(c => c.id !== id)
+})
 
 
 
