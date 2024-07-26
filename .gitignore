@@ -25,6 +25,9 @@ yarn-error.log*
 # Ignorando dependencias globales
 /node_modules
 
+# Ignorando ejercicios de repaso
+/ejercicios
+
 # Ignorando dependencias específicas de cada parte
 /fullstack/part0/0.3/node_modules
 /fullstack/part0/0.4/node_modules
@@ -42,11 +45,3 @@ yarn-error.log*
 /fullstack/part/phonebookBackend/node_modules
 
 
-
-
-
-
-
-
-# Ignorando ejercicios de repaso
-/ejercicios
