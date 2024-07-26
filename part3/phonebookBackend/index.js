@@ -1,10 +1,9 @@
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
+const cors = require('cors')
 
-app.use(express.static('dist'))
-app.use(express.json());
-app.use(morgan('tiny'))
+
 
 
 let contacts = [
@@ -29,6 +28,12 @@ let contacts = [
         "number": "39-23-6423122"
     }
 ]
+app.use(express.static('dist'))
+app.use(cors())
+
+app.use(express.json());
+app.use(morgan('tiny'))
+
 
 app.get('/', (request, response) => {
     response.send('<h1>PhoneBook</h1>')
