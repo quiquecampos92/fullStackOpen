@@ -32,6 +32,16 @@ app.get('/api/persons', (request, response) => {
     response.json(contacts)
 })
 
+app.get('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    const contact = contacts.find(c => c.id === id)
+    if (contact) {
+        response.json(contact)
+    } else {
+        response.status(404).end();
+    }
+})
+
 app.get('/info', (request, response) => {
     const info = () => {
         const total = contacts.length
