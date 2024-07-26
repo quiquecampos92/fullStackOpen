@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json());
+
+
 let contacts = [
     {
         "id": 1,
@@ -53,6 +56,19 @@ app.get('/info', (request, response) => {
     }
     response.send(`<p>Phonebook has info for ${info().totalNotes} people</p><p>${info().currentDate}</p>`)
 })
+
+app.post('/api/persons', (request, response) => {
+    const name = request.body.name;
+    const number = request.body.number;
+    let newContact = {
+        id: contacts.length === 0 ? 1 : contacts[contacts.length - 1].id + 1,
+        name: name,
+        number: number
+    }
+    contacts.push(newContact);
+    response.json(contacts);
+});
+
 
 app.delete('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
