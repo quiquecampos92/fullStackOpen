@@ -60,10 +60,22 @@ app.get('/info', (request, response) => {
 app.post('/api/persons', (request, response) => {
     const name = request.body.name;
     const number = request.body.number;
+    let existName = contacts.find(contact => name === contact.name)
+
     let newContact = {
         id: contacts.length === 0 ? 1 : contacts[contacts.length - 1].id + 1,
         name: name,
         number: number
+    }
+    if (!name || !number) {
+        return response.status(400).json({
+            error: 'Name or number cannot be empty.'
+        })
+    }
+    if (existName) {
+        return response.status(400).json({
+            error: 'Name already exists.'
+        })
     }
     contacts.push(newContact);
     response.json(contacts);
