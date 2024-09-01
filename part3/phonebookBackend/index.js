@@ -1,105 +1,63 @@
 const express = require('express')
 const app = express()
+
 const morgan = require('morgan')
+
+require('dotenv').config()
 const cors = require('cors')
 
-
-
-
-let contacts = [
-    {
-        "id": 1,
-        "name": "Arto Hellas",
-        "number": "040-123456"
-    },
-    {
-        "id": 2,
-        "name": "Ada Lovelace",
-        "number": "39-44-5323523"
-    },
-    {
-        "id": 3,
-        "name": "Dan Abramov",
-        "number": "12-43-234345"
-    },
-    {
-        "id": 4,
-        "name": "Mary Poppendieck",
-        "number": "39-23-6423122"
-    }
-]
 app.use(express.static('dist'))
+app.use(express.json())
 app.use(cors())
-
-app.use(express.json());
 app.use(morgan('tiny'))
 
+const Contact = require('./models/contact')
 
-app.get('/', (request, response) => {
-    response.send('<h1>PhoneBook</h1>')
-})
 
 app.get('/api/persons', (request, response) => {
-    response.json(contacts)
+    Contact.find({}).then(contacts => {
+        response.json(contacts)
+    })
 })
 
 app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const contact = contacts.find(c => c.id === id)
-    if (contact) {
+    Contact.findById(request.params.id).then(contact => {
         response.json(contact)
-    } else {
-        response.status(404).end();
-    }
+    })
 })
 
-app.get('/info', (request, response) => {
-    const info = () => {
-        const total = contacts.length
-        const now = new Date();
-        return {
-            totalNotes: total,
-            currentDate: now
-        }
-    }
-    response.send(`<p>Phonebook has info for ${info().totalNotes} people</p><p>${info().currentDate}</p>`)
-})
+app.post('/api/books', (request, response) => {
+    const body = request.body
 
-app.post('/api/persons', (request, response) => {
-    const name = request.body.name;
-    const number = request.body.number;
-    let existName = contacts.find(contact => name === contact.name)
-
-    let newContact = {
-        id: contacts.length === 0 ? 1 : contacts[contacts.length - 1].id + 1,
-        name: name,
-        number: number
+    if (body.name === undefined) {
+        return response.status(400).json({ error: 'name missing' })
     }
-    if (!name || !number) {
-        return response.status(400).json({
-            error: 'Name or number cannot be empty.'
-        })
-    }
-    if (existName) {
-        return response.status(400).json({
-            error: 'Name already exists.'
-        })
-    }
-    contacts.push(newContact);
-    response.json(contacts);
-});
 
+    const contact = new Contact({
+        name: body.name,
+        number: body.number,
+    })
 
-app.delete('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    contacts = contacts.filter(c => c.id !== id)
+    contact.save().then(savedContact => {
+        response.json(savedContact)
+    })
 })
 
 
+// app.delete('/api/persons/:id', (request, response) => {
+//     const id = Number(request.params.id)
+//     contacts = contacts.filter(c => c.id !== id)
+// })
 
-const PORT = process.env.PORT || 3001
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
+
+
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
 
-//esto es una prueba 2
