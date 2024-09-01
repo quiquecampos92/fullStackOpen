@@ -47,7 +47,6 @@ const App = () => {
       const contactObject = {
         name: newName,
         number: newNumber,
-        id: persons.length + 1,
       }
       contactService.createContact(contactObject)
         .then(response => {
