@@ -52,12 +52,12 @@ app.post('/api/persons', (request, response, next) => {
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
-    const { content, important } = request.body
+    const { name, number } = request.body
 
-    const contact = {
-        name: body.name,
-        number: body.number,
-    }
+    // const contact = {
+    //     name: body.name,
+    //     number: body.number,
+    // }
 
     Contact.findByIdAndUpdate(request.params.id, { name, number },
         { new: true, runValidators: true, context: 'query' })
@@ -71,8 +71,10 @@ app.delete('/api/persons/:id', (request, response, next) => {
     Contact.findByIdAndDelete(request.params.id)
         .then(result => {
             response.status(204).end()
+            console.log(result);
         })
         .catch(error => next(error))
+
 })
 
 const unknownEndpoint = (request, response) => {
