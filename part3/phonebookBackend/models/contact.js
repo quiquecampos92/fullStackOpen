@@ -16,7 +16,7 @@ mongoose.connect(url)
 
 const contactSchema = new mongoose.Schema({
     name: String,
-    number: Number,
+    number: String,
 })
 
 contactSchema.set('toJSON', {
