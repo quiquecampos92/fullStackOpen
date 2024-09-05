@@ -44,4 +44,7 @@ yarn-error.log*
 
 /fullstack/part3/phonebookBackend/node_modules/
 
+/fullstack/part4/bloglistBackend/node_modules/
+
+
 

@@ -14,13 +14,13 @@ app.use(morgan('tiny'))
 const Contact = require('./models/contact')
 
 
-app.get('/api/persons', (request, response) => {
+app.get('/api/contacts', (request, response) => {
     Contact.find({}).then(contacts => {
         response.json(contacts)
     })
 })
 
-app.get('/api/persons/:id', (request, response, next) => {
+app.get('/api/contacts/:id', (request, response, next) => {
     Contact.findById(request.params.id)
         .then(contact => {
             if (contact) {
@@ -32,7 +32,7 @@ app.get('/api/persons/:id', (request, response, next) => {
         .catch(error => next(error))
 })
 
-app.post('/api/persons', (request, response, next) => {
+app.post('/api/contacts', (request, response, next) => {
     const body = request.body
 
     if (body.name === undefined) {
@@ -51,7 +51,7 @@ app.post('/api/persons', (request, response, next) => {
         .catch(error => next(error))
 })
 
-app.put('/api/persons/:id', (request, response, next) => {
+app.put('/api/contacts/:id', (request, response, next) => {
     const { name, number } = request.body
 
     // const contact = {
@@ -67,7 +67,7 @@ app.put('/api/persons/:id', (request, response, next) => {
         .catch(error => next(error))
 })
 
-app.delete('/api/persons/:id', (request, response, next) => {
+app.delete('/api/contacts/:id', (request, response, next) => {
     Contact.findByIdAndDelete(request.params.id)
         .then(result => {
             response.status(204).end()
