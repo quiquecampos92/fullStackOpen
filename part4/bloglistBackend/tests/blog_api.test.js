@@ -109,6 +109,16 @@ test('a blog can be deleted', async () => {
     assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1)
 })
 
+test('blogs have id property, not _id', async () => {
+    const response = await api.get('/api/blogs')
+    const blogs = response.body
+
+    blogs.forEach(blog => {
+        assert(blog.id)
+        assert(!blog._id)
+    })
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
