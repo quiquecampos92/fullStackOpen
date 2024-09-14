@@ -149,6 +149,35 @@ test('a new blog post can be created', async () => {
     assert(titles.includes('Learning async/await in Node.js'))
 })
 
+test('a blog\'s likes can be updated', async () => {
+    // Obtener los blogs existentes
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = blogsAtStart[0] // Seleccionar el primer blog para actualizar
+
+    const updatedBlogData = {
+        title: blogToUpdate.title,
+        author: blogToUpdate.author,
+        url: blogToUpdate.url,
+        likes: blogToUpdate.likes + 10, // Aumentar los likes en 10
+    }
+
+    // Realizar la solicitud PUT para actualizar los likes
+    const response = await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .send(updatedBlogData)
+        .expect(200) // Verificar que la respuesta tenga el código 200 (OK)
+
+    // Verificar que los likes se han actualizado correctamente
+    assert.strictEqual(response.body.likes, blogToUpdate.likes + 10)
+
+    // Verificar que el blog actualizado está en la base de datos
+    const blogsAtEnd = await helper.blogsInDb()
+    const updatedBlog = blogsAtEnd.find(blog => blog.id === blogToUpdate.id)
+
+    assert.strictEqual(updatedBlog.likes, blogToUpdate.likes + 10)
+})
+
+
 after(async () => {
     await mongoose.connection.close()
 })
