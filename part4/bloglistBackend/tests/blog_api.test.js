@@ -92,7 +92,7 @@ test('a specific blog can be viewed', async () => {
     assert.deepStrictEqual(resultBlog.body, blogToView)
 })
 
-test('a blog can be deleted', async () => {
+test('a blog can be deleted ', async () => {
     const blogsAtStart = await helper.blogsInDb()
     const blogToDelete = blogsAtStart[0]
 
