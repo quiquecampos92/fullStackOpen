@@ -119,6 +119,36 @@ test('blogs have id property, not _id', async () => {
     })
 })
 
+test('a new blog post can be created', async () => {
+    // Obtener los blogs antes de la solicitud POST
+    const blogsAtStart = await helper.blogsInDb()
+
+    // Definir los datos del nuevo blog
+    const newBlog = {
+        title: 'Learning async/await in Node.js',
+        author: 'John Doe',
+        url: 'http://example.com/learning-async-await',
+        likes: 5
+    }
+
+    // Realizar una solicitud POST para crear un nuevo blog
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201) // Verificar que la respuesta tenga el código 201 (creado)
+        .expect('Content-Type', /application\/json/)
+
+    // Obtener los blogs después de la solicitud POST
+    const blogsAtEnd = await helper.blogsInDb()
+
+    // Verificar que el número de blogs se ha incrementado en uno
+    assert.strictEqual(blogsAtEnd.length, blogsAtStart.length + 1)
+
+    // Verificar que el nuevo blog esté en la base de datos
+    const titles = blogsAtEnd.map(b => b.title)
+    assert(titles.includes('Learning async/await in Node.js'))
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
