@@ -22,9 +22,9 @@ blogsRouter.get('/:id', async (request, response, next) => {
 })
 
 blogsRouter.post('/', async (request, response, next) => {
-    const { title, author, url, likes } = request.body
+    const { title, author, url, likes, userId = "66eb00ac450cf58ad750fe3f" } = request.body
 
-    const user = await User.findById(body.userId)
+    const user = await User.findById(userId)
 
     // Validar que el título y la URL estén presentes
     if (!title || !url) {
@@ -36,12 +36,12 @@ blogsRouter.post('/', async (request, response, next) => {
         author,
         url,
         likes: likes || 0,
-        user: user.id
+        user: userId
     })
 
     try {
         const savedBlog = await blog.save()
-        user.notes = user.notes.concat(savedNote._id)
+        user.blogs = user.blogs.concat(savedBlog._id)
         await user.save()
         response.status(201).json(savedBlog)
     } catch (error) {
