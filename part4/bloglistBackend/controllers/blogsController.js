@@ -32,7 +32,7 @@ const getTokenFrom = request => {
 
 blogsRouter.post('/', async (request, response, next) => {
     const { title, author, url, likes, userId = "66eb00ac450cf58ad750fe3f" } = request.body
-
+    //post with token
     const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
     if (!decodedToken.id) {
         return response.status(401).json({ error: 'token invalid' })
