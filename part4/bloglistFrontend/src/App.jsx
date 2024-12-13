@@ -35,7 +35,9 @@ function App() {
       const user = await loginService.login({
         username, password,
       })
-
+      window.localStorage.setItem(
+        'loggedNoteappUser', JSON.stringify(user)
+      )
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
@@ -46,6 +48,12 @@ function App() {
         setErrorMessage(null)
       }, 5000)
     }
+  }
+
+  const handleLogout = (e) => {
+    e.preventDefault()
+    window.localStorage.removeItem('loggedNoteappUser')
+    setUser(null)
   }
 
 
@@ -79,12 +87,15 @@ function App() {
     <>
       {user === null ?
         loginForm() :
-        <div>
-          <h2>blogs</h2>
-          {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
-          )}
-        </div>
+        <>
+          <div>
+            <h2>blogs</h2>
+            {blogs.map(blog =>
+              <Blog key={blog.id} blog={blog} />
+            )}
+          </div>
+          <button className="border border-gray-300 p-2 rounded" onClick={handleLogout}>logout</button>
+        </>
       }
       <Notification message={errorMessage} />
     </>
