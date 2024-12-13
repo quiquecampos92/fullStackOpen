@@ -13,9 +13,15 @@ const getAllBlogs = () => {
     return axios.get(basedUrl)
 }
 
-const createBlog = (newBlog) => {
-    return axios.post(basedUrl, newBlog)
+const createBlog = async (newBlog) => {
+    const config = {
+        headers: { Authorization: token }
+    }
+    const response = await axios.post(basedUrl, newBlog, config)
+    return response.data
+    // return axios.post(basedUrl, newBlog, config)
 }
+
 
 const updateBlog = (id, modifiedBlog) => {
     return axios.put(`${basedUrl}/${id}`, modifiedBlog)

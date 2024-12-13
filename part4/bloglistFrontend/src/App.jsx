@@ -12,6 +12,13 @@ function App() {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [isActiveNewBlogForm, setIsActiveNewBlogForm] = useState(false)
+  const [newBlogForm, setNewBlogForm] = useState({
+    title: '',
+    author: '',
+    url: '',
+    likes: ''
+  })
 
 
   useEffect(() => {
@@ -83,18 +90,120 @@ function App() {
     </form>
   )
 
+  const createBlogButton = () => {
+    if (isActiveNewBlogForm) {
+      setIsActiveNewBlogForm(false)
+    } else {
+      setIsActiveNewBlogForm(true)
+    }
+  }
+
+  const handleBlogFormChange = (e) => {
+    const { name, value } = e.target;
+    setNewBlogForm({ ...newBlogForm, [name]: value });
+  }
+
+  const handleNewBlogSubmit = async (e) => {
+    e.preventDefault()
+
+    try {
+      const newBlog = {
+        "title": newBlogForm.title,
+        "author": newBlogForm.author,
+        "url": newBlogForm.url,
+        "likes": newBlogForm.likes
+      }
+      const resp = await blogService.createBlog(newBlog)
+      setNewBlogForm({
+        title: '',
+        author: '',
+        url: '',
+        likes: ''
+      })
+      setIsActiveNewBlogForm(false)
+      blogService
+        .getAllBlogs()
+        .then((response) => {
+          let blogs = response.data;
+
+          setBlogs(blogs);
+        })
+        .catch((error) => {
+          console.error("Error fetching blogs:", error);
+
+        });
+
+    } catch (exception) {
+      setErrorMessage('something was wrong')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
+
   return (
     <>
       {user === null ?
         loginForm() :
         <>
-          <div>
-            <h2>blogs</h2>
+          <div className='flex
+          '>
+            <h1 className='font-bold capitalize m-4'>blogs</h1>
+            <button onClick={createBlogButton} className='border border-gray-300 p-2 rounded'>Create new blog</button>
+          </div>
+          {isActiveNewBlogForm &&
+            <div>
+              <form onSubmit={handleNewBlogSubmit}>
+                <div>
+                  title
+                  <input
+                    type="text"
+                    value={newBlogForm.title}
+                    name="title"
+                    onChange={handleBlogFormChange}
+                    className="border border-gray-300 p-2 rounded"
+                  />
+                </div>
+                <div>
+                  author
+                  <input
+                    type="text"
+                    value={newBlogForm.author}
+                    name="author"
+                    onChange={handleBlogFormChange}
+                    className="border border-gray-300 p-2 rounded"
+                  />
+                </div>
+                <div>
+                  url
+                  <input
+                    type="text"
+                    value={newBlogForm.url}
+                    name="url"
+                    onChange={handleBlogFormChange}
+                    className="border border-gray-300 p-2 rounded"
+                  />
+                </div>
+                <div>
+                  likes
+                  <input
+                    type="text"
+                    value={newBlogForm.likes}
+                    name="likes"
+                    onChange={handleBlogFormChange}
+                    className="border border-gray-300 p-2 rounded"
+                  />
+                </div>
+                <button type="submit" className="border border-gray-300 p-2 rounded">Create</button>
+              </form>
+            </div>
+          }
+          <div className='m-4'>
             {blogs.map(blog =>
               <Blog key={blog.id} blog={blog} />
             )}
           </div>
-          <button className="border border-gray-300 p-2 rounded" onClick={handleLogout}>logout</button>
+          <button className="m-4 border border-gray-300 p-2 rounded" onClick={handleLogout}>logout</button>
         </>
       }
       <Notification message={errorMessage} />
