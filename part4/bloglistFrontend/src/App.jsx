@@ -12,6 +12,7 @@ function App() {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
+  const [okMessage, setOkMessage] = useState("")
   const [isActiveNewBlogForm, setIsActiveNewBlogForm] = useState(false)
   const [newBlogForm, setNewBlogForm] = useState({
     title: '',
@@ -132,6 +133,10 @@ function App() {
           console.error("Error fetching blogs:", error);
 
         });
+      setOkMessage("Blog added")
+      setTimeout(() => {
+        setOkMessage("")
+      }, 2000)
 
     } catch (exception) {
       setErrorMessage('something was wrong')
@@ -151,6 +156,7 @@ function App() {
             <h1 className='font-bold capitalize m-4'>blogs</h1>
             <button onClick={createBlogButton} className='border border-gray-300 p-2 rounded'>Create new blog</button>
           </div>
+          <Notification message={okMessage} />
           {isActiveNewBlogForm &&
             <div>
               <form onSubmit={handleNewBlogSubmit}>
